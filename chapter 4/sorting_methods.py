@@ -83,19 +83,25 @@ def mergeSort(in_nums):
 def QuickSort(in_nums):
     def helper(nums, in_left, in_right):
         if in_left >= in_right:
-            return
+            return 0
         left, right = in_left, in_right
-        pivot = nums[in_left]
+        pivot = nums[in_right]
 
         while left < right:
-            while nums[left] < pivot:
+            while left < right and nums[left] <= pivot:
                 left += 1
-            while nums[right] > pivot:
+            if left < right:
+                nums[left], nums[right] = nums[right], nums[left]
+
+            while left < right and nums[right] >= pivot:
                 right -= 1
-            nums[left], nums[right] = nums[right], nums[left]
-        nums[right] = pivot
-        helper(nums, in_left, right-1)
-        helper(nums, right+1, in_right)
+            if left < right:
+                nums[left], nums[right] = nums[right], nums[left]
+
+
+
+        helper(nums, in_left, left-1)
+        helper(nums, left+1, in_right)
 
     nums = in_nums[:]
     helper(nums, 0, len(nums)-1)
@@ -104,7 +110,8 @@ def QuickSort(in_nums):
 
 import random
 
-sample = [random.randrange(0, 100) for _ in range(10)]
+sample = [random.randrange(0, 1000) for _ in range(20)]
+# sample = [2,3,7,4,2]
 print(sample)
 print(BubbleSort(sample))
 print(SelectionSort(sample))
